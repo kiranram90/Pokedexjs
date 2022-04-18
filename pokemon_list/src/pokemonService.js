@@ -7,7 +7,13 @@ class PokemonService{               //have a base url. so you don't have to worr
         this.endpoint = endpoint    
     }  
     // 1: Read/Index action
-   
+    getDetails(){
+        fetch(`${this.endpoint}/details`)
+        .then(resp => resp.json())
+        .then(details  => {
+            for (const detail of details){
+                const d = new details(detail) //destructuring to assign property values
+                d.domChanger()
             }
         })
     }
