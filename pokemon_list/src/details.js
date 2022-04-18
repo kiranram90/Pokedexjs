@@ -53,14 +53,30 @@ class Detail {
 
   static renderForm() {
     Detail.detailForm.innerHTML += `
-    <form id="new-pokemon-form">
-      Name: <input type="text" id="name">
-      Elements: <input type="text" id="elements">
-      Location: <input type="text" id="location">
-      Size: <input type="text" id="size">
-      <input type="submit" id="create">
+  
+    <div class="notification is-primary">
+    <form id="new-pokemon-form" class="box">
+    <div class="field">
+    <p class="title is-1"> Pokedex </p>
+
+    <br>
+    <br>
+    Name:
+    <input class="input is-primary" input type="text" placeholder="Enter Name" id="name">
+  
+      Elements:
+      <input class="input is-primary" input type="text" placeholder="Enter Element" id="elements">
+
+      Location: 
+      <input class="input is-primary" input type="text" placeholder="Enter Location" id="location">
+
+      Size:
+      <input class="input is-primary" input type="text" placeholder="Enter Size - Large/Medium/Small" id="size">
+
+      <input type="submit" id="create" class="button is-dark">
     <form>  
-    
+    </div>
+   
     `;
   }
 }
