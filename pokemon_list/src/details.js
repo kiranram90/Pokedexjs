@@ -3,7 +3,20 @@ class Detail {
   static detailContainer = document.getElementById("details-container");
   static detailForm = document.getElementById("form-container");
 
-  
+  constructor({ id, name, elements, location, size, pokemon_id }) {
+    //constructor is mimicing back end define properties
+    this.id = id;
+    this.name = name;
+    this.elements = elements;
+    this.location = location;
+    this.size = size;
+    this.pokemon_id = pokemon_id;
+    this.element = document.createElement("div"); //creating its own element to show on index.html
+    this.element.dataset.id = this.id;
+    this.element.id = "detail-${this.id}";
+
+    Detail.all.push(this);
+  }
 
   detailHTML() {
     //creating the innerHteml for the element above. Since this is an instance that is being called on detail instance we use this and not worry about selecting it to change it.
