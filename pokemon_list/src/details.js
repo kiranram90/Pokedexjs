@@ -11,9 +11,7 @@ class Detail {
     this.location = location;
     this.size = size;
     this.pokemon_id = pokemon_id;
-    this.element = document.createElement("div"); //creating its own element to show on index.html
-    this.element.dataset.id = this.id;
-    this.element.id = "detail-${this.id}";
+    
 
     Detail.all.push(this);
   }
