@@ -34,7 +34,12 @@ class PokemonService{               //have a base url. so you don't have to worr
             body: JSON.stringify(detail) //everything shared on the internet is string so we need to stringfy it
         }
 
-      
+        fetch(`${this.endpoint}/details`, configObject)
+        .then(resp => resp.json())
+        .then(detail => {
+            const d = new Detail(detail)
+            console.log(detail)
+            d.domChanger()
         })
 
     }    
