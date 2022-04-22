@@ -8,11 +8,11 @@ class PokemonService{               //have a base url. so you don't have to worr
     }  
     // 1: Read/Index action
     getDetails(){
-        fetch(`${this.endpoint}/details`)
+        fetch(`${this.endpoint}details`)
         .then(resp => resp.json())
         .then(details  => {
             for (const detail of details){
-                const d = new details(detail) //destructuring to assign property values
+                const d = new Detail(detail) //destructuring to assign property values
                 d.domChanger()
             }
         })
@@ -41,6 +41,18 @@ class PokemonService{               //have a base url. so you don't have to worr
             console.log(detail)
             d.domChanger()
         })
-
+    }
+        deletePokemon(id){  
+            fetch(`${this.endpoint}/details/${id}`,{
+                method: 'DELETE', //convention to be all caps
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+        })
+        .then(resp => console.log(resp))
+        .then(() => {
+            window.location.reload();
+        }) 
     }    
+    
 }
