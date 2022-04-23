@@ -14,15 +14,15 @@ class Detail {
     this.element = document.createElement("div"); //creating its own element to show on index.html
     this.element.dataset.id = this.id;
     this.element.id = "detail-${this.id}";
-    this.element.addEventListener('click', this.processClick)
+    this.element.addEventListener("click", this.processClick);
     Detail.all.push(this);
   }
 
-  processClick = () =>{
-    if (event.target.innerText === 'Delete'){
-      pokemonService.deletePokemon(this.id) //pokemonService is initilized as global variable and passing in object id to use in fetch. 
-    }                                       // arrow function here because this is returning the button element
-  }
+  processClick = () => {
+    if (event.target.innerText === "Delete") {
+      pokemonService.deletePokemon(this.id); //pokemonService is initilized as global variable and passing in object id to use in fetch.
+    } // arrow function here because this is returning the button element
+  };
 
   detailHTML() {
     //creating the innerHteml for the element above. Since this is an instance that is being called on detail instance we use this and not worry about selecting it to change it.
@@ -66,8 +66,12 @@ class Detail {
     `;
     const newCommentForm = this.element.querySelector("form");
 
-    const newCommentTextInput = this.element.querySelector("input[name='comment[text]']");
-    const newCommentPokemonID = this.element.querySelector("input[name='comment[pokemon_id]']");
+    const newCommentTextInput = this.element.querySelector(
+      "input[name='comment[text]']"
+    );
+    const newCommentPokemonID = this.element.querySelector(
+      "input[name='comment[pokemon_id]']"
+    );
 
     newCommentForm.onsubmit = async (event) => {
       event.preventDefault();
@@ -75,17 +79,16 @@ class Detail {
       const resp = await fetch("/comments", {
         method: "POST",
         headers: {
-          "content-type": "application/json"
+          "content-type": "application/json",
         },
-        body: JSON.stringify(
-          {
-            text: newCommentTextInput.value,
-            pokemon_id: newCommentPokemonID.value
-          })
+        body: JSON.stringify({
+          text: newCommentTextInput.value,
+          pokemon_id: newCommentPokemonID.value,
+        }),
       });
 
       console.log(resp);
-    }
+    };
 
     return this.element; //This function is just responsible for creating the innerhtml for the element that it is going in.
   }
