@@ -29,6 +29,9 @@ ActiveRecord::Schema.define(version: 2022_04_20_143708) do
   end
 
   create_table "pokemons", force: :cascade do |t|
+    t.string "elements"
+    t.string "location"
+    t.string "size"
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

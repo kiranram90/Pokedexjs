@@ -5,7 +5,7 @@ class PokemonsController < ApplicationController
   def index
     @pokemons = Pokemon.all
 
-    render json: @pokemons
+    render json: @pokemons.as_json(include: :comments)
   end
 
   # GET /pokemons/1
@@ -18,7 +18,7 @@ class PokemonsController < ApplicationController
     @pokemon = Pokemon.new(pokemon_params)
 
     if @pokemon.save
-      render json: @pokemon, status: :created, location: @pokemon
+      render json: @pokemon.as_json(include: :comments), status: :created, location: @pokemon
     else
       render json: @pokemon.errors, status: :unprocessable_entity
     end
@@ -46,6 +46,6 @@ class PokemonsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def pokemon_params
-      params.require(:pokemon).permit(:name)
+      params.require(:pokemon).permit(:elements, :location, :size, :name)
     end
 end

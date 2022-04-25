@@ -1,9 +1,9 @@
-class Detail {
+class Pokemon {
   static all = []; //class variable is referenced as static
-  static detailContainer = document.getElementById("details-container");
-  static detailForm = document.getElementById("form-container");
+  static pokemonContainer = document.getElementById("pokemon-container");
+  static pokemonForm = document.getElementById("form-container");
 
-  constructor({ id, name, elements, location, size, pokemon_id }) {
+  constructor({ id, name, elements, location, size, pokemon_id, comments }) {
     //constructor is mimicing back end define properties
     this.id = id;
     this.name = name;
@@ -11,21 +11,22 @@ class Detail {
     this.location = location;
     this.size = size;
     this.pokemon_id = pokemon_id;
+    this.comments = comments;
     this.element = document.createElement("div"); //creating its own element to show on index.html
     this.element.dataset.id = this.id;
-    this.element.id = "detail-${this.id}";
+    this.element.id = "pokemon-${this.id}";
     this.element.addEventListener("click", this.processClick);
-    Detail.all.push(this);
+    Pokemon.all.push(this);
   }
 
   processClick = () => {
     if (event.target.innerText === "Delete") {
       pokemonService.deletePokemon(this.id); //pokemonService is initilized as global variable and passing in object id to use in fetch.
-    } // arrow function here because this is returning the button element
+    } // here this is pokemon that was clicked on
   };
 
-  detailHTML() {
-    //creating the innerHteml for the element above. Since this is an instance that is being called on detail instance we use this and not worry about selecting it to change it.
+  pokemonHTML() {
+    //this points to pokemon that we created in the back end and we are displaying. creating the innerHteml for the element above. Since this is an instance that is being called on detail instance we use this and not worry about selecting it to change it.
     this.element.innerHTML += ` 
     <div class="card">
         <div class="card-content">
@@ -55,6 +56,7 @@ class Detail {
                   <input type="submit" />
                 </form>
 
+                <h3 class="subtitle">Comments</h3>
                 <ul class="comments-list">
 
                 </ul>
@@ -73,32 +75,31 @@ class Detail {
       "input[name='comment[pokemon_id]']"
     );
 
+    // create comment request. This here is the isntance of a pokemon
     newCommentForm.onsubmit = async (event) => {
       event.preventDefault();
 
-      const resp = await fetch("/comments", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          text: newCommentTextInput.value,
-          pokemon_id: newCommentPokemonID.value,
-        }),
-      });
-
+      pokemonService.createComment(newCommentPokemonID.value, newCommentTextInput.value)
       console.log(resp);
     };
+
+    const commentsList = this.element.querySelector(".comments-list");
+      
+    this.comments.forEach(comment => {
+      const li = document.createElement("li");
+      li.innerText = comment.text;
+      commentsList.appendChild(li);
+    });
 
     return this.element; //This function is just responsible for creating the innerhtml for the element that it is going in.
   }
 
   domChanger() {
-    Detail.detailContainer.appendChild(this.detailHTML());
+    Pokemon.pokemonContainer.appendChild(this.pokemonHTML());
   }
 
   static renderForm() {
-    Detail.detailForm.innerHTML += `
+    Pokemon.pokemonForm.innerHTML += `
   
     <div class="notification is-primary">
     <form id="new-pokemon-form" class="box">

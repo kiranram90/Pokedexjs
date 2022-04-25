@@ -8,21 +8,21 @@ class PokemonService {
     this.endpoint = endpoint;
   }
   // 1: Read/Index action
-  getDetails() {
-    fetch(`${this.endpoint}details`)
+  getPokemon() {
+    fetch(`${this.endpoint}/pokemons`)
       .then((resp) => resp.json())
-      .then((details) => {
-        Detail.detailContainer.innerHTML = ""; // clear pokemon list
+      .then((allPokemonJSON) => {
+        Pokemon.pokemonContainer.innerHTML = ""; // clear pokemon list
         // for each pokemon, display html
-        for (const detail of details) {
-          const d = new Detail(detail); //destructuring to assign property values
-          d.domChanger();
+        for (const pokemonJSON of allPokemonJSON) {
+          const pokemon = new Pokemon(pokemonJSON); //destructuring to assign property values
+          pokemon.domChanger();
         }
       });
   }
 
-  createDetail() {
-    const detail = {
+  createPokemon() {
+    const pokemon = {
       name: document.getElementById("name").value,
       elements: document.getElementById("elements").value,
       size: document.getElementById("size").value,
@@ -34,19 +34,38 @@ class PokemonService {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(detail), //everything shared on the internet is string so we need to stringfy it
+      body: JSON.stringify(pokemon), //everything shared on the internet is string so we need to stringfy it
     };
 
-    fetch(`${this.endpoint}/details`, configObject)
+    fetch(`${this.endpoint}/pokemons`, configObject)
       .then((resp) => resp.json())
-      .then((detail) => {
-        const d = new Detail(detail);
-        console.log(detail);
-        d.domChanger();
+      .then((pokemonJSON) => {
+        const pokemon = new Pokemon(pokemonJSON);
+        console.log(pokemon);
+        pokemon.domChanger();
       });
   }
+
+  createComment(pokemon_id,text) {
+    //can use this.endpoint here but it would mean more coding.
+    const resp = fetch(`${this.endpoint}/comments`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        text: text,
+        pokemon_id: pokemon_id,
+      }),
+    })
+      .then((resp) => resp.json())
+      .then((respJSON) => {
+        this.getPokemon();
+      });
+  }
+
   deletePokemon(id) {
-    fetch(`${this.endpoint}/details/${id}`, {
+    fetch(`${this.endpoint}/pokemons/${id}`, {
       method: "DELETE", //convention to be all caps
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +73,7 @@ class PokemonService {
     })
       .then((resp) => console.log(resp))
       .then(() => {
-        this.getDetails();
+        this.getPokemon();
       });
   }
 }
