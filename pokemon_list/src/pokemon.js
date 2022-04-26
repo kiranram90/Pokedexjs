@@ -25,6 +25,7 @@ class Pokemon {
     } // here this is pokemon that was clicked on
   };
 
+
   pokemonHTML() {
     //this points to pokemon that we created in the back end and we are displaying. creating the innerHteml for the element above. Since this is an instance that is being called on detail instance we use this and not worry about selecting it to change it.
     this.element.innerHTML += ` 

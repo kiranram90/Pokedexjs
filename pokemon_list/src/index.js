@@ -14,3 +14,17 @@ function processSubmit() {
   pokemonService.createPokemon();
   event.target.reset(); //clears the form
 }
+const usercommentsForm = document.getElementById("user-comments-form");
+usercommentsForm.addEventListener("submit", processUsercommentsformsubmit);
+
+function processUsercommentsformsubmit(event) {
+ event.preventDefault()
+ const newcommenttextelement = document.getElementById("user-comments-input")
+ const newcommenttextvalue = newcommenttextelement.value 
+ 
+ const usercommentslistelement = document.getElementById("user-comments-div")
+ const commentelement = document.createElement("li");
+ commentelement.innerText = newcommenttextvalue
+ usercommentslistelement.appendChild(commentelement)
+}
+
